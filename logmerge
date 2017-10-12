@@ -5,22 +5,22 @@
 #
 # Copyright (c) 2012, 2014, 2015 Ildar Shaimordanov
 #
-# Permission is hereby granted, free of charge, to any person obtaining a 
-# copy of this software and associated documentation files (the "Software"), 
-# to deal in the Software without restriction, including without limitation 
-# the rights to use, copy, modify, merge, publish, distribute, sublicense, 
-# and/or sell copies of the Software, and to permit persons to whom the 
+# Permission is hereby granted, free of charge, to any person obtaining a
+# copy of this software and associated documentation files (the "Software"),
+# to deal in the Software without restriction, including without limitation
+# the rights to use, copy, modify, merge, publish, distribute, sublicense,
+# and/or sell copies of the Software, and to permit persons to whom the
 # Software is furnished to do so, subject to the following conditions:
 #
-# The above copyright notice and this permission notice shall be included 
+# The above copyright notice and this permission notice shall be included
 # in all copies or substantial portions of the Software.
 #
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS 
-# OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF 
-# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN 
-# NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, 
-# DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR 
-# OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE 
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+# OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+# NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+# DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+# OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
 # USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
@@ -29,11 +29,11 @@ then
 	cat - <<EOL
 Usage: $(basename $0) [options]
 
-Small and powerful script to merge two or more logfiles so that multilined 
-entries appear in the correct chronological order without breaks of entries. 
-Optional arguments control an adding of descriptive fields at the beginning 
-of each line in the resulting combined logfile. Reading of .gz/.bz2 files is 
-available. 
+Small and powerful script to merge two or more logfiles so that multilined
+entries appear in the correct chronological order without breaks of entries.
+Optional arguments control an adding of descriptive fields at the beginning
+of each line in the resulting combined logfile. Reading of .gz/.bz2 files is
+available.
 
 -h, --hostname    Print hostname
 -f, --filename    Print the name of file
@@ -102,6 +102,10 @@ do
 		m_ts_match='^\[\w+ (\w+) (\d+) (\d+):(\d+):(\d+) (\d+)\]'
 		m_ts_subst='$6$m{$1}$2$3$4$5'
 		;;
+    --gemfire | --geode)
+        m_ts_match='^\[\w+ (\d+)/(\d+)/(\d+) (\d+):(\d+):(\d+).(\d+)'
+        m_ts_subst='$3$1$2$4$5$6$7'
+        ;;
 	*)
 		m_files="$m_files \"$m_arg\""
 		;;
@@ -123,9 +127,9 @@ processFile() {
 		our $recnum = 0;
 
 		our %m = (
-			Jan => "01", Feb => "02", Mar => "03", Apr => "04", 
-			May => "05", Jun => "06", Jul => "07", Aug => "08", 
-			Sep => "09", Oct => "10", Nov => "11", Dec => "12", 
+			Jan => "01", Feb => "02", Mar => "03", Apr => "04",
+			May => "05", Jun => "06", Jul => "07", Aug => "08",
+			Sep => "09", Oct => "10", Nov => "11", Dec => "12",
 		);
 
 		sub printIF {
